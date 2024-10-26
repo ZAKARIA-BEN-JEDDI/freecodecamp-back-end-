@@ -1,39 +1,35 @@
 const express = require('express');
-const cors = require('cors');
-
 const app = express();
-app.use(cors());
 
-const PORT = process.env.PORT || 3000;
-
-// Route de base
-app.get('/', (req, res) => {
-  res.send('Bienvenue sur le Timestamp Microservice');
-});
-
-// Route principale pour traiter la date
 app.get('/api/:date?', (req, res) => {
-  let { date } = req.params;
-
-  if (!date) {
+  let dateInput = req.params.date;
+  let date;
+  
+  // Handle empty date parameter - return current date
+  if (!dateInput) {
     date = new Date();
   } else {
-    if (!isNaN(date)) {
-      date = parseInt(date);
+    // Check if dateInput is a number (Unix timestamp)
+    if (!isNaN(dateInput)) {
+      dateInput = parseInt(dateInput);
     }
-    date = new Date(date);
+    date = new Date(dateInput);
   }
-
-  if (isNaN(date.getTime())) {
+  
+  // Check if the date is valid
+  if (date.toString() === 'Invalid Date') {
     return res.json({ error: 'Invalid Date' });
   }
-
+  
+  // Return the JSON response
   res.json({
     unix: date.getTime(),
     utc: date.toUTCString(),
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Serveur en cours d'exécution sur le port ${PORT}`);
+// Start the server
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
