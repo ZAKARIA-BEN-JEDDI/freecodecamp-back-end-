@@ -1,16 +1,12 @@
 {
   "name": "timestamp-microservice",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "A timestamp microservice for date handling.",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.21.1"
+    "express": "^4.18.2"
   }
 }
